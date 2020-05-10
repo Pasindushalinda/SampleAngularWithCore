@@ -10,9 +10,12 @@ import { Injectable } from '@angular/core';
 export class MemberListResolver implements Resolve<User[]> {
     constructor(private userService: UserService, private router: Router, private alertify: AlertifyService) {}
 
+    pageNumber = 1;
+    pageSize = 5;
+
     resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
         // tslint:disable-next-line:no-string-literal
-        return this.userService.getUsers().pipe(
+        return this.userService.getUsers(this.pageNumber, this.pageSize).pipe(
             catchError(error => {
                 this.alertify.error('Problem retrieving data');
                 this.router.navigate(['/home']);
